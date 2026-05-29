@@ -2,7 +2,7 @@
 
 
 
-#SaT
+# SaT
 @inproceedings{minixhofer-etal-2023-wheres,
     title = "Where{'}s the Point? Self-Supervised Multilingual Punctuation-Agnostic Sentence Segmentation",
     author = "Minixhofer, Benjamin  and
@@ -17,7 +17,7 @@
     pages = "7215--7235"
 }
 
-#pysbd
+# pysbd
 @inproceedings{sadvilkar-neumann-2020-pysbd,
     title = "{P}y{SBD}: Pragmatic Sentence Boundary Disambiguation",
     author = "Sadvilkar, Nipun  and
