@@ -1,10 +1,23 @@
+from tqdm import tqdm
 import pysbd
 import pandas as pd
 
+import time
+
+
+tqdm.pandas()
+
+start = time.perf_counter()
+
+
 
 seg = pysbd.Segmenter(language="en", clean=False)
-data = pd.read_csv('../FacebookDataSet.csv')
+data = pd.read_csv('../Data/TiktokDataSet.csv')
 
-data['predicted_sentence'] = data['Comments'].apply(lambda x: seg.segment(x))
-data.to_csv('../prediction.csv', index=False)
-data.to_csv('../pysbd_predictions.csv', index=False)
+data['predicted_sentence'] = data['Comments'].progress_apply(lambda x: seg.segment(x))
+data.to_csv('../predictions.csv', index=False)
+
+elapsed = time.perf_counter() - start
+
+print(f"Runtime: {elapsed:.4f} seconds")
+
