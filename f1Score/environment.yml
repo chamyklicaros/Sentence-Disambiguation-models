@@ -1,0 +1,6 @@
+name: torch311
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+prefix: /home/koyin/miniconda3/envs/torch311

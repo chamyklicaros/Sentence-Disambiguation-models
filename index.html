@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentence Disambiguation</title>
+  <link rel="stylesheet" href="web/style.css">
+</head>
+<body>
+  <h1>Sentence Disambiguation Models - Taglish</h1>
+
+  <label for="sentence">Enter a sentence:</label><br>
+  <input type="text" id="sentence" name="sentence" placeholder="Type Taglish text here..."><br><br>
+
+  <label for="model">Choose a model:</label><br>
+  <select id="model" name="model">
+    <option value="sat">SaT</option>
+    <option value="pysbd">Pysbd</option>
+    <option value="sat_finetuned">SaT Finetuned</option>
+  </select><br><br>
+
+  <button onclick="analyze()">Analyze</button>
+
+  <div id="results" style="display:none;">
+    <h2>Results</h2>
+    <p id="sentence-count"></p>
+    <ol id="sentence-list"></ol>
+  </div>
+
+  <script src="web/script.js"></script>
+</body>
+</html>
