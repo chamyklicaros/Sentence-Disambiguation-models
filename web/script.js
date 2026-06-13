@@ -1,47 +1,74 @@
-async function analyze() {
-  const sentenceInput = document.getElementById('sentence');
-  const model = document.getElementById('model').value;
+function selectModel(el) {
+  document.querySelectorAll('.model-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+}
 
-  if (!sentenceInput.value) {
-    alert('Please enter a sentence to analyze.');
+function getModel() {
+  return document.querySelector('.model-opt.active')?.dataset.val || 'sat';
+}
+
+function showError(msg) {
+  const b = document.getElementById('errorBanner');
+  b.textContent = msg;
+  b.style.display = 'block';
+}
+
+function hideError() {
+  document.getElementById('errorBanner').style.display = 'none';
+}
+
+async function analyze() {
+  const input = document.getElementById('sentence');
+  const btn = document.getElementById('analyzeBtn');
+  const model = getModel();
+  hideError();
+
+  if (!input.value.trim()) {
+    showError('Please enter a sentence to analyze.');
     return;
   }
+
+  btn.disabled = true;
+  btn.classList.add('loading');
+  btn.querySelector('.btn-text').textContent = 'Analyzing…';
 
   try {
     const response = await fetch('/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sentence: sentenceInput.value, model: model })
+      body: JSON.stringify({ sentence: input.value, model })
     });
-
     const data = await response.json();
 
     if (!response.ok) {
-      alert('Error: ' + (data.detail || 'Unknown error'));
+      showError(data.detail || 'Unknown error');
       return;
     }
 
-    // Display results instead of alert
-    const resultDiv = document.getElementById('results');
-    const countEl = document.getElementById('sentence-count');
+    const results = document.getElementById('results');
+    const badge = document.getElementById('badge');
     const list = document.getElementById('sentence-list');
 
-    countEl.textContent = `[${data.model}] found ${data.count} sentence(s):`;
+    badge.textContent = `${data.count} sentence${data.count !== 1 ? 's' : ''} · ${data.model}`;
     list.innerHTML = '';
-    data.result.forEach(s => {
-      const li = document.createElement('li');
-      li.textContent = s;
-      list.appendChild(li);
+    data.result.forEach((s, i) => {
+      const item = document.createElement('div');
+      item.className = 'sentence-item';
+      item.innerHTML = `<span class="sentence-num">${i + 1}</span><span class="sentence-text">${s}</span>`;
+      list.appendChild(item);
     });
 
-    resultDiv.style.display = 'block';
-
+    results.style.display = 'block';
   } catch (err) {
-    alert('Request failed: ' + err.message);
+    showError('Request failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    btn.querySelector('.btn-text').textContent = 'Analyze';
   }
 }
+Sa
 
-// Moved OUTSIDE analyze() — only needs to be registered once
 document.getElementById('sentence').addEventListener('keydown', e => {
   if (e.key === 'Enter') analyze();
 });

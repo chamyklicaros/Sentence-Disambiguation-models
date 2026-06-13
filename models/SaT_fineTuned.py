@@ -8,7 +8,7 @@ tqdm.pandas()
 start = time.perf_counter()
 
 
-data = pd.read_csv('../Data/TiktokDataSet.csv')
+data = pd.read_csv('../Data/FacebookDataSet.csv')
 #model
 sat_lora_adapted = SaT(
 	"sat-3l",
@@ -17,7 +17,7 @@ sat_lora_adapted = SaT(
 
 data['predicted_sentence'] = data['Comments'].progress_apply(lambda x: sat_lora_adapted.split(x))
 
-data.to_csv("../predictions.csv", index=False)
+data.to_csv('../f1Score/predictions.csv', index=False)
 
 
 elapsed = time.perf_counter() - start

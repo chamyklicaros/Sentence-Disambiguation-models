@@ -7,24 +7,50 @@
   <link rel="stylesheet" href="web/style.css">
 </head>
 <body>
-  <h1>Sentence Disambiguation Models - Taglish</h1>
+  <div class="app">
+    <div class="header">
+      <h1>Sentence disambiguation</h1>
+      <p>Split Taglish text into individual sentences using ML models</p>
+    </div>
 
-  <label for="sentence">Enter a sentence:</label><br>
-  <input type="text" id="sentence" name="sentence" placeholder="Type Taglish text here..."><br><br>
+    <div class="card">
+      <label for="sentence">Input text</label>
+      <div class="input-wrap">
+        <input type="text" id="sentence" placeholder="Type Taglish text here…">
+        <button class="send-btn" onclick="analyze()" aria-label="Analyze">&#8594;</button>
+      </div>
 
-  <label for="model">Choose a model:</label><br>
-  <select id="model" name="model">
-    <option value="sat">SaT</option>
-    <option value="pysbd">Pysbd</option>
-    <option value="sat_finetuned">SaT Finetuned</option>
-  </select><br><br>
+      <label style="margin-top:1.25rem;">Model</label>
+      <div class="model-row">
+        <div class="model-opt active" data-val="sat" onclick="selectModel(this)">
+          <div class="name">SaT</div>
+          <div class="desc">12-layer, general</div>
+        </div>
+        <div class="model-opt" data-val="pysbd" onclick="selectModel(this)">
+          <div class="name">PySBD</div>
+          <div class="desc">Rule-based, fast</div>
+        </div>
+        <div class="model-opt" data-val="sat_finetuned" onclick="selectModel(this)">
+          <div class="name">SaT fine-tuned</div>
+          <div class="desc">Taglish-specific</div>
+        </div>
+      </div>
 
-  <button onclick="analyze()">Analyze</button>
+      <button class="analyze-btn" id="analyzeBtn" onclick="analyze()">
+        <div class="spinner"></div>
+        <span class="btn-text">Analyze</span>
+      </button>
 
-  <div id="results" style="display:none;">
-    <h2>Results</h2>
-    <p id="sentence-count"></p>
-    <ol id="sentence-list"></ol>
+      <div class="error-banner" id="errorBanner"></div>
+    </div>
+
+    <div class="results" id="results">
+      <div class="results-header">
+        <span class="results-title">Sentences found</span>
+        <span class="badge" id="badge"></span>
+      </div>
+      <div id="sentence-list"></div>
+    </div>
   </div>
 
   <script src="web/script.js"></script>
